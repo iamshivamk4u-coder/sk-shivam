@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sign in to your SkillLance learner and affiliate dashboard." />
+    <title>Sign in — SkillLance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="auth.css" />
+  </head>
+  <body>
+    <main class="auth-layout">
+      <a class="auth-brand" href="index.html"><span>s</span>SkillLance</a>
+      <section class="auth-card" aria-labelledby="login-title">
+        <p class="eyebrow">LEARN · EARN · GROW</p>
+        <h1 id="login-title">Welcome <em>back.</em></h1>
+        <p class="intro">Sign in to view your courses, personal referral link, sales, and commissions.</p>
+        <form id="login-form">
+          <label>E-mail address<input id="email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
+          <label>Password<input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required /></label>
+          <button type="submit">Sign in <span>→</span></button>
+          <p class="form-message" role="status" aria-live="polite" hidden></p>
+        </form>
+        <button class="text-button" id="forgot-password" type="button">Forgot password?</button>
+        <p class="help">New learners receive a secure password-setup link after their payment is confirmed.</p>
+      </section>
+    </main>
+    <script type="module" src="auth.js"></script>
+  </body>
+</html>
