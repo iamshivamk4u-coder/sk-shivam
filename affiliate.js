@@ -9,6 +9,10 @@ const sidebar = document.querySelector(".side-nav");
 const profileButton = document.querySelector(".profile");
 const profileDialog = document.querySelector("#profile-dialog");
 const profileClose = document.querySelector(".profile-close");
+const profileEditButton = document.querySelector(".profile-edit");
+const profileEditForm = document.querySelector("#profile-edit-form");
+const profileDetails = document.querySelector(".profile-details");
+const profileEditActions = document.querySelector(".profile-dialog-actions");
 const money = new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 });
 
 function showToast(message) {
@@ -40,7 +44,7 @@ if (!session) {
 const user = session.user;
 window.currentUserId = user.id;
 const [{ data: profile }, { data: affiliate }] = await Promise.all([
-  supabase.from("profiles").select("full_name, email, mobile, state, account_status").eq("user_id", user.id).single(),
+  supabase.from("profiles").select("full_name, email, mobile, state, account_status, avatar_url, package_name").eq("user_id", user.id).single(),
   supabase.from("affiliates").select("id, referral_code, status").eq("user_id", user.id).single(),
 ]);
 const { data: enrollments = [] } = await supabase.from("enrollments").select("course_code").eq("customer_id", user.id).eq("access_status", "granted");
@@ -48,14 +52,18 @@ const displayName = profile?.full_name || user.user_metadata?.full_name || user.
 const courseNames = { ELITE: "Elite Package", MARKETING: "Marketing Mastery", SOFT: "Soft Skill Mastery", PRO: "Pro Package", PRIME: "Prime Package", FINANCE: "Finance Package" };
 const enrolledPackages = enrollments.map((enrollment) => courseNames[enrollment.course_code] || enrollment.course_code);
 setAll(".affiliate-name", displayName);
-const avatarUrl = `https://api.dicebear.com/9.x/initials/svg?backgroundType=solid&backgroundColor=ffcf52&seed=${encodeURIComponent(displayName)}`;
-document.querySelectorAll(".profile-avatar, .profile-picture, .profile-hero-picture").forEach((image) => { image.src = avatarUrl; });
+let currentAvatarUrl = profile?.avatar_url || `https://api.dicebear.com/9.x/initials/svg?backgroundType=solid&backgroundColor=ffcf52&seed=${encodeURIComponent(displayName)}`;
+document.querySelectorAll(".profile-avatar, .profile-picture, .profile-hero-picture").forEach((image) => { image.src = currentAvatarUrl; });
 setAll("[data-profile-email]", profile?.email || user.email || "—");
 document.querySelector("[data-profile-mobile]").textContent = profile?.mobile || "Not added";
 document.querySelector("[data-profile-state]").textContent = profile?.state || "Not added";
 document.querySelector("[data-profile-code]").textContent = affiliate?.referral_code || "Preparing";
 document.querySelector("[data-profile-status]").textContent = profile?.account_status || "Active";
-document.querySelector("[data-package-name]").textContent = enrolledPackages.length ? enrolledPackages.join(", ") : "No active package";
+const packageName = profile?.package_name || (enrolledPackages.length ? enrolledPackages.join(", ") : "No active package");
+document.querySelector("[data-package-name]").textContent = packageName;
+document.querySelector("[data-profile-package]").textContent = packageName;
+document.querySelector("#edit-mobile").value = profile?.mobile || "";
+document.querySelector("#edit-package-name").value = profile?.package_name || enrolledPackages.join(", ");
 
 if (affiliate?.referral_code) link.textContent = `${siteUrl}/?ref=${affiliate.referral_code}`;
 else {
@@ -114,6 +122,66 @@ document.querySelectorAll(".refresh-income").forEach((button) => button.addEvent
 profileButton?.addEventListener("click", () => profileDialog.showModal());
 document.querySelector(".profile-card-button")?.addEventListener("click", () => profileDialog.showModal());
 profileClose?.addEventListener("click", () => profileDialog.close());
+profileEditButton?.addEventListener("click", () => {
+  profileDetails.hidden = true;
+  profileEditActions.hidden = true;
+  profileEditForm.hidden = false;
+  profileEditForm.style.display = "grid";
+});
+document.querySelector(".cancel-profile-edit")?.addEventListener("click", () => {
+  profileEditForm.hidden = true;
+  profileEditForm.style.display = "";
+  profileDetails.hidden = false;
+  profileEditActions.hidden = false;
+});
+profileEditForm?.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const submit = profileEditForm.querySelector("button[type=submit]");
+  const message = profileEditForm.querySelector(".profile-edit-message");
+  const form = new FormData(profileEditForm);
+  submit.disabled = true;
+  message.hidden = true;
+  try {
+    const photo = form.get("avatar_file");
+    if (photo?.size) {
+      if (photo.size > 2 * 1024 * 1024) throw new Error("Please choose a photo smaller than 2 MB.");
+      const extension = photo.name.split(".").pop()?.toLowerCase() || "jpg";
+      const path = `${user.id}/profile.${extension}`;
+      const { error: uploadError } = await supabase.storage.from("profile-photos").upload(path, photo, { upsert: true, contentType: photo.type });
+      if (uploadError) throw uploadError;
+      const { data } = supabase.storage.from("profile-photos").getPublicUrl(path);
+      currentAvatarUrl = `${data.publicUrl}?updated=${Date.now()}`;
+    }
+    const { data: updatedProfile, error } = await supabase.rpc("update_my_profile", {
+      p_full_name: displayName,
+      p_mobile: form.get("mobile") || "",
+      p_state: profile?.state || "",
+      p_avatar_url: currentAvatarUrl,
+      p_package_name: form.get("package_name") || "",
+    });
+    if (error) throw error;
+    const savedPackage = updatedProfile?.package_name || form.get("package_name") || "No active package";
+    document.querySelectorAll(".profile-avatar, .profile-picture, .profile-hero-picture").forEach((image) => { image.src = currentAvatarUrl; });
+    document.querySelector("[data-profile-mobile]").textContent = updatedProfile?.mobile || "Not added";
+    document.querySelector("[data-package-name]").textContent = savedPackage;
+    document.querySelector("[data-profile-package]").textContent = savedPackage;
+    message.textContent = "Profile updated successfully.";
+    message.className = "profile-edit-message success";
+    message.hidden = false;
+    window.setTimeout(() => {
+      profileEditForm.hidden = true;
+      profileEditForm.style.display = "";
+      profileDetails.hidden = false;
+      profileEditActions.hidden = false;
+    }, 700);
+  } catch (error) {
+    message.textContent = error.message || "Could not update your profile.";
+    message.className = "profile-edit-message";
+    message.hidden = false;
+  } finally {
+    submit.disabled = false;
+  }
+});
 document.querySelector(".sign-out")?.addEventListener("click", async () => {
   await supabase.auth.signOut();
   window.location.assign("index.html");
