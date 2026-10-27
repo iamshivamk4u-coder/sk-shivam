@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="SkillLance affiliate dashboard for referrals, course sales, commissions, and payouts." />
+    <title>Affiliate Dashboard — SkillLance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="affiliate.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="side-nav">
+        <a class="dashboard-brand" href="index.html"><span>s</span>SkillLance</a>
+        <p class="side-label">AFFILIATE PORTAL</p>
+        <nav aria-label="Affiliate navigation">
+          <a class="active" href="#overview"><i>⌂</i> Overview</a>
+          <a href="#referral-link"><i>↗</i> My referral link</a>
+          <a href="#sales"><i>▣</i> My sales</a>
+          <a href="#payouts"><i>₹</i> Payouts</a>
+          <a href="#resources"><i>◈</i> Creative resources</a>
+        </nav>
+        <div class="side-help"><b>Need help?</b><p>Our team is here to help you start sharing.</p><a href="https://alvo.chat/8hVl" target="_blank" rel="noopener noreferrer">Chat on WhatsApp →</a></div>
+        <a class="back-site" href="index.html">← Back to website</a>
+      </aside>
+
+      <main class="dashboard-main" id="overview">
+        <header class="dashboard-header">
+          <button class="menu-toggle" type="button" aria-label="Open dashboard menu">☰</button>
+          <div><p class="welcome-kicker">AFFILIATE DASHBOARD</p><h1>Hello, <span class="affiliate-name">SkillLancer</span> <em>✦</em></h1></div>
+          <div class="profile"><div class="profile-avatar">SL</div><div><strong class="affiliate-name">SkillLancer</strong><small>Affiliate member</small></div><span>⌄</span></div>
+        </header>
+
+        <section class="welcome-card">
+          <div><p class="pill">YOUR PARTNER BENEFIT</p><h2>Earn <em>70% commission</em><br />on every course sale.</h2><p>Share your personal referral link. When someone buys through it, the sale and your commission appear here.</p><a href="#referral-link">Get your link <span>→</span></a></div>
+          <div class="commission-orb"><span>70<small>%</small></span><b>commission<br />per sale</b></div>
+          <div class="dots" aria-hidden="true"></div>
+        </section>
+
+        <section class="stats-grid" aria-label="Affiliate earnings overview">
+          <article><div class="stat-icon green">₹</div><p>Total earnings</p><strong>₹<span data-earnings>0</span></strong><small><b>70%</b> of qualified sales</small></article>
+          <article><div class="stat-icon orange">◎</div><p>Total referrals</p><strong data-referrals>0</strong><small>People who used your link</small></article>
+          <article><div class="stat-icon blue">✓</div><p>Successful sales</p><strong data-sales>0</strong><small>Completed course purchases</small></article>
+          <article><div class="stat-icon purple">▣</div><p>Available payout</p><strong>₹<span data-payout>0</span></strong><small>Minimum payout ₹500</small></article>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="panel referral-panel" id="referral-link">
+            <div class="panel-heading"><div><p class="section-kicker">YOUR REFERRAL LINK</p><h2>Share. Refer. Earn.</h2></div><span class="link-status">● Active</span></div>
+            <p class="panel-copy">Every buyer who uses this link becomes your referral. You receive 70% commission after their payment is confirmed.</p>
+            <div class="link-box"><span id="affiliate-link">https://skilllance.courses/?ref=SKILLLANCE</span><button class="copy-link" type="button">Copy link</button></div>
+            <div class="share-row"><a class="share whatsapp" href="https://alvo.chat/8hVl" target="_blank" rel="noopener noreferrer">◔ Share on WhatsApp</a><button class="share plain-share" type="button">↗ Share link</button></div>
+          </article>
+
+          <article class="panel commission-panel">
+            <div class="panel-heading"><div><p class="section-kicker">HOW YOU EARN</p><h2>Commission example</h2></div></div>
+            <div class="commission-example"><div><span>Course price</span><strong>₹1,499</strong></div><span class="multiply">×</span><div><span>Your share</span><strong>70%</strong></div><span class="equals">=</span><div class="highlight"><span>You earn</span><strong>₹1,049</strong></div></div>
+            <p>Commission is calculated on each successful course purchase made through your active referral link.</p>
+          </article>
+        </section>
+
+        <section class="panel sales-panel" id="sales">
+          <div class="panel-heading"><div><p class="section-kicker">RECENT ACTIVITY</p><h2>Your sales</h2></div><a href="#sales" class="muted-link">View all sales →</a></div>
+          <div class="table-wrap"><table><thead><tr><th>Course</th><th>Buyer</th><th>Sale date</th><th>Course price</th><th>Your commission</th><th>Status</th></tr></thead><tbody id="sales-table"><tr class="empty-row"><td colspan="6"><span>↗</span> Your sales will appear here after a referral completes payment.</td></tr></tbody></table></div>
+        </section>
+
+        <section class="dashboard-grid bottom-grid">
+          <article class="panel payout-panel" id="payouts"><div class="panel-heading"><div><p class="section-kicker">YOUR PAYOUT</p><h2>Ready when you are.</h2></div></div><strong class="payout-amount">₹<span data-payout>0</span></strong><p>Your eligible earnings become available for withdrawal after each sale is confirmed.</p><button class="withdraw-button" type="button" disabled>Withdraw earnings</button><small>Minimum payout: ₹500</small></article>
+          <article class="panel resources-panel" id="resources"><div><p class="section-kicker">MAKE SHARING EASIER</p><h2>Affiliate resources</h2><p>Use ready-to-share messages, posters, and course details to help your referrals get started.</p><a href="index.html#programs">Browse courses <span>→</span></a></div><div class="resource-icon">✦<span>↗</span></div></article>
+        </section>
+      </main>
+    </div>
+    <div class="toast" role="status" aria-live="polite" hidden>Referral link copied.</div>
+    <script src="affiliate.js"></script>
+  </body>
+</html>
