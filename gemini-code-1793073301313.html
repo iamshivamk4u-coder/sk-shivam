@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkillLance — Select Package & Pay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet" />
+    
+    <style>
+      :root {
+        --font-body: 'DM Sans', sans-serif;
+        --font-heading: 'Outfit', sans-serif;
+        --bg: #f8fafc;
+        --card-bg: #ffffff;
+        --text: #0f172a;
+        --muted: #64748b;
+        --border: #e2e8f0;
+        --prime-color: #ff5722;
+        --finance-color: #0284c7;
+        --radius: 16px;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: var(--font-body);
+        background-color: var(--bg);
+        color: var(--text);
+        padding: 40px 20px;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .checkout-container {
+        width: 100%;
+        max-width: 900px;
+      }
+
+      .checkout-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .checkout-header h1 {
+        font-family: var(--font-heading);
+        font-size: 2.25rem;
+        margin-bottom: 8px;
+      }
+
+      .checkout-header p {
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+
+      .packages-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+      }
+
+      .package-card {
+        background: var(--card-bg);
+        border: 2px solid var(--border);
+        border-radius: var(--radius);
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      .package-card:hover {
+        transform: translateY(-4px);
+      }
+
+      .package-card.prime:hover { border-color: var(--prime-color); }
+      .package-card.finance:hover { border-color: var(--finance-color); }
+
+      .card-tag {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+      }
+
+      .prime .card-tag { background: #fff3e0; color: var(--prime-color); }
+      .finance .card-tag { background: #e0f2fe; color: var(--finance-color); }
+
+      .package-title {
+        font-family: var(--font-heading);
+        font-size: 1.75rem;
+        margin-bottom: 8px;
+      }
+
+      .package-desc {
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+      }
+
+      .price {
+        font-family: var(--font-heading);
+        font-size: 2.25rem;
+        font-weight: 800;
+        margin-bottom: 24px;
+      }
+
+      .price span {
+        font-size: 0.9rem;
+        color: var(--muted);
+        font-weight: 400;
+      }
+
+      .perks {
+        list-style: none;
+        border-top: 1px solid var(--border);
+        padding-top: 20px;
+        margin-bottom: 32px;
+      }
+
+      .perks li {
+        font-size: 0.95rem;
+        color: #334155;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .perks li::before {
+        content: "✓";
+        font-weight: bold;
+        color: #16a34a;
+      }
+
+      .payment-wrapper {
+        min-height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="checkout-container">
+      <div class="checkout-header">
+        <h1>Select Your Package</h1>
+        <p>Complete your enrollment securely via Razorpay</p>
+      </div>
+
+      <div class="packages-grid">
+        <!-- Prime Package -->
+        <div class="package-card prime">
+          <div>
+            <span class="card-tag">Most Popular</span>
+            <h2 class="package-title">The Prime Package</h2>
+            <p class="package-desc">End-to-end freelance roadmap, skills, and client acquisition.</p>
+            <div class="price">₹ 7,499 <span>/ lifetime</span></div>
+            <ul class="perks">
+              <li>Access to 6+ Master Courses</li>
+              <li>Portfolio Building Projects</li>
+              <li>WhatsApp Live Mentorship Support</li>
+              <li>Verified Certificate of Completion</li>
+            </ul>
+          </div>
+          <div class="payment-wrapper">
+            <form>
+              <script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tscrao7delyrCN" async> </script>
+            </form>
+          </div>
+        </div>
+
+        <!-- Finance Package -->
+        <div class="package-card finance">
+          <div>
+            <span class="card-tag">Premium Mastery</span>
+            <h2 class="package-title">The Finance Package</h2>
+            <p class="package-desc">Personal money management, service pricing, and investments.</p>
+            <div class="price">₹ 9,999 <span>/ lifetime</span></div>
+            <ul class="perks">
+              <li>Access to 3+ Finance Courses</li>
+              <li>Money Management for Independent Work</li>
+              <li>Pricing & Negotiation Worksheets</li>
+              <li>WhatsApp Live Mentorship Support</li>
+            </ul>
+          </div>
+          <div class="payment-wrapper">
+            <form>
+              <script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_Tsd2sXzAgnBo2g" async> </script>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
