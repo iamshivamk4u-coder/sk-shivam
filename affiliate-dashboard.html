@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="affiliate.css" />
     <link rel="stylesheet" href="affiliate-auth.css" />
+    <link rel="stylesheet" href="affiliate-enhancements.css" />
+    <link rel="stylesheet" href="affiliate-profile.css" />
   </head>
   <body>
     <div class="app-shell">
@@ -20,6 +22,7 @@
           <a class="active" href="#overview"><i>⌂</i> Overview</a>
           <a href="#referral-link"><i>↗</i> My referral link</a>
           <a href="#sales"><i>▣</i> My sales</a>
+          <a class="refresh-income" href="#income"><i>↻</i> Income refresh</a>
           <a href="#payouts"><i>₹</i> Payouts</a>
           <a href="#resources"><i>◈</i> Creative resources</a>
         </nav>
@@ -31,13 +34,19 @@
         <header class="dashboard-header">
           <button class="menu-toggle" type="button" aria-label="Open dashboard menu">☰</button>
           <div><p class="welcome-kicker">AFFILIATE DASHBOARD</p><h1>Hello, <span class="affiliate-name">SkillLancer</span> <em>✦</em></h1></div>
-          <div class="profile"><div class="profile-avatar">SL</div><div><strong class="affiliate-name">SkillLancer</strong><small>Affiliate member</small></div><span>⌄</span></div>
+          <button class="profile" type="button" aria-label="View profile details"><img class="profile-avatar" alt="Profile avatar" /><div><strong class="affiliate-name">SkillLancer</strong><small>Affiliate member</small></div><span>⌄</span></button>
         </header>
 
-        <section class="welcome-card">
-          <div><p class="pill">YOUR PARTNER BENEFIT</p><h2>Earn <em>70% commission</em><br />on every course sale.</h2><p>Share your personal referral link. When someone buys through it, the sale and your commission appear here.</p><a href="#referral-link">Get your link <span>→</span></a></div>
-          <div class="commission-orb"><span>70<small>%</small></span><b>commission<br />per sale</b></div>
-          <div class="dots" aria-hidden="true"></div>
+        <section class="affiliate-profile-card" aria-label="Affiliate profile summary">
+          <div class="profile-card-user"><img class="profile-hero-picture" alt="Profile avatar" /><div><p class="eyebrow">AFFILIATE PROFILE</p><h2 class="affiliate-name">SkillLancer</h2><p class="profile-email" data-profile-email>—</p></div></div>
+          <div class="profile-card-package"><span>YOUR PACKAGE</span><strong data-package-name>Loading package…</strong><small>Course access is active</small></div>
+          <button class="profile-card-button" type="button">View profile <span>→</span></button>
+        </section>
+
+        <section class="income-grid" id="income" aria-label="Affiliate revenue for recent periods">
+          <article class="income-card today"><div><p class="section-kicker">TODAY'S REVENUE</p><strong>₹<span data-today-revenue>0</span></strong><small>Paid referral sales today</small></div><span class="income-icon">☀</span></article>
+          <article class="income-card week"><div><p class="section-kicker">7 DAYS REVENUE</p><strong>₹<span data-week-revenue>0</span></strong><small>Paid referral sales in the last 7 days</small></div><span class="income-icon">↗</span></article>
+          <article class="income-refresh-card"><p class="section-kicker">INCOME REFRESH</p><strong>Keep your earnings current.</strong><p>Last refreshed <span data-last-refresh>just now</span></p><button class="refresh-income" type="button">↻ Refresh income</button></article>
         </section>
 
         <section class="stats-grid" aria-label="Affiliate earnings overview">
@@ -71,8 +80,28 @@
           <article class="panel payout-panel" id="payouts"><div class="panel-heading"><div><p class="section-kicker">YOUR PAYOUT</p><h2>Ready when you are.</h2></div></div><strong class="payout-amount">₹<span data-payout>0</span></strong><p>Your eligible earnings become available for withdrawal after each sale is confirmed.</p><button class="withdraw-button" type="button" disabled>Withdraw earnings</button><small>Minimum payout: ₹500</small></article>
           <article class="panel resources-panel" id="resources"><div><p class="section-kicker">MAKE SHARING EASIER</p><h2>Affiliate resources</h2><p>Use ready-to-share messages, posters, and course details to help your referrals get started.</p><a href="index.html#programs">Browse courses <span>→</span></a></div><div class="resource-icon">✦<span>↗</span></div></article>
         </section>
+
+        <section class="welcome-card bottom-benefit">
+          <div><p class="pill">YOUR PARTNER BENEFIT</p><h2>Earn <em>70% commission</em><br />on every course sale.</h2><p>Share your personal referral link. When someone buys through it, the sale and your commission appear here.</p><a href="#referral-link">Get your link <span>→</span></a></div>
+          <div class="commission-orb"><span>70<small>%</small></span><b>commission<br />per sale</b></div>
+          <div class="dots" aria-hidden="true"></div>
+        </section>
       </main>
     </div>
+    <dialog class="profile-dialog" id="profile-dialog" aria-labelledby="profile-details-title">
+      <button class="profile-close" type="button" aria-label="Close profile details">×</button>
+      <div class="profile-dialog-head"><img class="profile-picture" alt="Profile avatar" /><div><p class="eyebrow">AFFILIATE PROFILE</p><h2 id="profile-details-title" class="affiliate-name">SkillLancer</h2><span class="profile-status">● Active affiliate</span></div></div>
+      <div class="profile-dialog-actions"><button class="profile-edit" type="button">Edit profile</button></div>
+      <dl class="profile-details"><div><dt>E-mail</dt><dd data-profile-email>—</dd></div><div><dt>Mobile no.</dt><dd data-profile-mobile>—</dd></div><div><dt>State</dt><dd data-profile-state>—</dd></div><div><dt>Referral code</dt><dd data-profile-code>—</dd></div><div><dt>Account status</dt><dd data-profile-status>—</dd></div></dl>
+      <form class="profile-edit-form" id="profile-edit-form" hidden>
+        <label>Name<input id="edit-full-name" name="full_name" type="text" autocomplete="name" required /></label>
+        <label>Mobile no.<input id="edit-mobile" name="mobile" type="tel" autocomplete="tel" inputmode="numeric" placeholder="10-digit mobile number" /></label>
+        <label>State<input id="edit-state" name="state" type="text" placeholder="Your state" /></label>
+        <label>Profile photo link<input id="edit-avatar-url" name="avatar_url" type="url" placeholder="https://example.com/photo.jpg" /></label>
+        <div><button type="button" class="cancel-profile-edit">Cancel</button><button type="submit">Save profile</button></div>
+        <p class="profile-edit-message" role="status" hidden></p>
+      </form>
+    </dialog>
     <div class="toast" role="status" aria-live="polite" hidden>Referral link copied.</div>
     <script type="module" src="affiliate.js"></script>
   </body>
