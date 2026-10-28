@@ -94,7 +94,14 @@
       <div class="profile-dialog-head"><img class="profile-picture" alt="Profile avatar" /><div><p class="eyebrow">AFFILIATE PROFILE</p><h2 id="profile-details-title" class="affiliate-name">SkillLancer</h2><span class="profile-status">● Active affiliate</span></div></div>
       <div class="profile-dialog-actions"><button class="profile-edit" type="button">Edit profile</button></div>
       <dl class="profile-details"><div><dt>E-mail</dt><dd data-profile-email>—</dd></div><div><dt>Mobile no.</dt><dd data-profile-mobile>—</dd></div><div><dt>Package name</dt><dd data-profile-package>—</dd></div><div><dt>Referral code</dt><dd data-profile-code>—</dd></div><div><dt>Account status</dt><dd data-profile-status>—</dd></div></dl>
-      <form class="profile-edit-form" id="profile-edit-form" hidden>
+      <form class="profile-edit-form" id="profile-edit-form" hidden> <label>Full name<input id="edit-full-name" name="full_name" type="text" placeholder="Your full name" /></label>
+  
+  <label>Profile photo<input id="edit-avatar-file" name="avatar_file" type="file" accept="image/png,image/jpeg,image/webp" /></label>
+  <label>Mobile no.<input id="edit-mobile" name="mobile" type="tel" autocomplete="tel" inputmode="numeric" placeholder="10-digit mobile number" /></label>
+  <label>Package name<input id="edit-package-name" name="package_name" type="text" placeholder="For example: Elite Package" /></label>
+  <div><button type="button" class="cancel-profile-edit">Cancel</button><button type="submit">Save profile</button></div>
+  <p class="profile-edit-message" role="status" hidden></p>
+</form>
         <label>Profile photo<input id="edit-avatar-file" name="avatar_file" type="file" accept="image/png,image/jpeg,image/webp" /></label>
         <label>Mobile no.<input id="edit-mobile" name="mobile" type="tel" autocomplete="tel" inputmode="numeric" placeholder="10-digit mobile number" /></label>
         <label>Package name<input id="edit-package-name" name="package_name" type="text" placeholder="For example: Elite Package" /></label>
@@ -106,13 +113,3 @@
     <script type="module" src="affiliate.js"></script>
   </body>
 </html>
-<form class="profile-edit-form" id="profile-edit-form" hidden>
-  <!-- Add this full name input field -->
-  <label>Full name<input id="edit-full-name" name="full_name" type="text" placeholder="Your full name" /></label>
-  
-  <label>Profile photo<input id="edit-avatar-file" name="avatar_file" type="file" accept="image/png,image/jpeg,image/webp" /></label>
-  <label>Mobile no.<input id="edit-mobile" name="mobile" type="tel" autocomplete="tel" inputmode="numeric" placeholder="10-digit mobile number" /></label>
-  <label>Package name<input id="edit-package-name" name="package_name" type="text" placeholder="For example: Elite Package" /></label>
-  <div><button type="button" class="cancel-profile-edit">Cancel</button><button type="submit">Save profile</button></div>
-  <p class="profile-edit-message" role="status" hidden></p>
-</form>

@@ -54,6 +54,7 @@ const enrolledPackages = enrollments.map((enrollment) => courseNames[enrollment.
 setAll(".affiliate-name", displayName);
 let currentAvatarUrl = profile?.avatar_url || `https://api.dicebear.com/9.x/initials/svg?backgroundType=solid&backgroundColor=ffcf52&seed=${encodeURIComponent(displayName)}`;
 document.querySelectorAll(".profile-avatar, .profile-picture, .profile-hero-picture").forEach((image) => { image.src = currentAvatarUrl; });
+document.querySelector("#edit-full-name").value = profile?.full_name || displayName;
 setAll("[data-profile-email]", profile?.email || user.email || "—");
 document.querySelector("[data-profile-mobile]").textContent = profile?.mobile || "Not added";
 document.querySelector("[data-profile-state]").textContent = profile?.state || "Not added";
@@ -122,7 +123,7 @@ document.querySelectorAll(".refresh-income").forEach((button) => button.addEvent
 profileButton?.addEventListener("click", () => profileDialog.showModal());
 document.querySelector(".profile-card-button")?.addEventListener("click", () => profileDialog.showModal());
 profileClose?.addEventListener("click", () => profileDialog.close());
-profileEditButton?.addEventListener("click", () => {
+profileEditButton?.addEventListener("submit", () => {
   profileDetails.hidden = true;
   profileEditActions.hidden = true;
   profileEditForm.hidden = false;
