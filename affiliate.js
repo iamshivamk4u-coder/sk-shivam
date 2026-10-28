@@ -54,9 +54,9 @@ const enrolledPackages = enrollments.map((enrollment) => courseNames[enrollment.
 setAll(".affiliate-name", displayName);
 let currentAvatarUrl = profile?.avatar_url || `https://api.dicebear.com/9.x/initials/svg?backgroundType=solid&backgroundColor=ffcf52&seed=${encodeURIComponent(displayName)}`;
 document.querySelectorAll(".profile-avatar, .profile-picture, .profile-hero-picture").forEach((image) => { image.src = currentAvatarUrl; });
-document.querySelector("#edit-full-name").value = profile?.full_name || displayName;
 setAll("[data-profile-email]", profile?.email || user.email || "—");
 document.querySelector("[data-profile-mobile]").textContent = profile?.mobile || "Not added";
+document.querySelector("#edit-full-name").value = profile?.full_name || displayName;
 document.querySelector("[data-profile-state]").textContent = profile?.state || "Not added";
 document.querySelector("[data-profile-code]").textContent = affiliate?.referral_code || "Preparing";
 document.querySelector("[data-profile-status]").textContent = profile?.account_status || "Active";
@@ -123,7 +123,7 @@ document.querySelectorAll(".refresh-income").forEach((button) => button.addEvent
 profileButton?.addEventListener("click", () => profileDialog.showModal());
 document.querySelector(".profile-card-button")?.addEventListener("click", () => profileDialog.showModal());
 profileClose?.addEventListener("click", () => profileDialog.close());
-profileEditButton?.addEventListener("submit", () => {
+profileEditButton?.addEventListener("click", () => {
   profileDetails.hidden = true;
   profileEditActions.hidden = true;
   profileEditForm.hidden = false;
@@ -153,19 +153,28 @@ profileEditForm?.addEventListener("submit", async (event) => {
       const { data } = supabase.storage.from("profile-photos").getPublicUrl(path);
       currentAvatarUrl = `${data.publicUrl}?updated=${Date.now()}`;
     }
+
+    const newFullName = form.get("full_name") || displayName;
+
     const { data: updatedProfile, error } = await supabase.rpc("update_my_profile", {
-      p_full_name: displayName,
+      p_full_name: newFullName, // Sends your new name to Supabase
       p_mobile: form.get("mobile") || "",
       p_state: profile?.state || "",
       p_avatar_url: currentAvatarUrl,
       p_package_name: form.get("package_name") || "",
     });
     if (error) throw error;
+
     const savedPackage = updatedProfile?.package_name || form.get("package_name") || "No active package";
+    
+    // Instantly updates your name across the dashboard
+    setAll(".affiliate-name", newFullName);
+
     document.querySelectorAll(".profile-avatar, .profile-picture, .profile-hero-picture").forEach((image) => { image.src = currentAvatarUrl; });
     document.querySelector("[data-profile-mobile]").textContent = updatedProfile?.mobile || "Not added";
     document.querySelector("[data-package-name]").textContent = savedPackage;
     document.querySelector("[data-profile-package]").textContent = savedPackage;
+    
     message.textContent = "Profile updated successfully.";
     message.className = "profile-edit-message success";
     message.hidden = false;
