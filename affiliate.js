@@ -61,6 +61,10 @@ document.querySelector("[data-profile-state]").textContent = profile?.state || "
 document.querySelector("[data-profile-code]").textContent = affiliate?.referral_code || "Preparing";
 document.querySelector("[data-profile-status]").textContent = profile?.account_status || "Active";
 const packageName = profile?.package_name || (enrolledPackages.length ? enrolledPackages.join(", ") : "No active package");
+const packageEl = document.querySelector('[data-package-name]');
+if (packageEl) {
+    packageEl.textContent = packageName;
+}
 document.querySelector("[data-package-name]").textContent = packageName;
 document.querySelector("[data-profile-package]").textContent = packageName;
 document.querySelector("#edit-mobile").value = profile?.mobile || "";
