@@ -165,9 +165,19 @@ profileEditForm?.addEventListener("submit", async (event) => {
       p_mobile: form.get("mobile") || "",
       p_state: profile?.state || "",
       p_avatar_url: currentAvatarUrl,
-      p_package_name: form.get("package_name") || "",
+      p_package_name: form.get("elite") || "",
     });
     if (error) throw error;
+// This checks if Supabase successfully brought back your profile data
+if (profile) {
+    // Find the text area on your website that has [data-package-name]
+    const packageEl = document.querySelector('[data-package-name]');
+    
+    // If it finds that area, change "Loading package..." to your actual package ('Elite')
+    if (packageEl) {
+        packageEl.textContent = profile.package_name || 'No active package';
+    }
+}
 
     const savedPackage = updatedProfile?.package_name || form.get("package_name") || "No active package";
     
